@@ -1,11 +1,11 @@
 <?php
 ######################################################################
-# Zentester for Joomla 1.6		       	          	          	     #
-# Copyright (C) 2011 by Zentester	   	   	   	   	   	             #
-# Homepage   : www.zentester.com		   	   	   	   	   	         #
-# Author     : Tim Robinson   		   	   	   	   	   	   	         #
-# Email      : feedback@zentester.com 	   	   	   	   	   	   	 #
-# Version    : 1.0	                       	   	    	   	   	     #
+# Zentester For Joomla        	          	         				#
+# Copyright (C) 2011 by Zentester	   	   	   	   	   	 #
+# Homepage   : www.zentester.com		   	   	   	   	   	 #
+# Author     : Tim Robinson	   	   	   	   	   	   	   	 #
+# Email      : info@zentester.com 	   	   	   	   	   	     #
+# Version    : 1.0.0	                       	   	    	   	   	 #
 # License    : http://www.gnu.org/copyleft/gpl.html GNU/GPL          #
 ######################################################################
 
@@ -13,20 +13,25 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.plugin.plugin');
+jimport( 'joomla.filesystem.file' );
+jimport( 'joomla.filesystem.path' );
+jimport( 'joomla.client.helper' );
 
 
 class plgSystemzentester4joomla extends JPlugin
 {
-
-
-	function onAfterRender()
-		{
-		$mainframe = &JFactory::getApplication();
-
-		if($mainframe->isAdmin() || strpos($_SERVER["PHP_SELF"], "index.php") === false || JRequest::getVar('format','html') != 'html'){
-			return;
-		}
+	function plgSystemzentester4joomla(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
 		
+		$this->_plugin = JPluginHelper::getPlugin( 'system', 'zentester4joomla' );
+		$this->_params = new JParameter( $this->_plugin->params );
+	}
+	
+	function onAfterRender()
+	{
+		global $mainframe;
+
 		$zentester_id = $this->params->get('zentester_id', '');
 			
 		if($zentester_id == '' || $mainframe->isAdmin() || strpos($_SERVER["PHP_SELF"], "index.php") === false)
@@ -36,12 +41,12 @@ class plgSystemzentester4joomla extends JPlugin
 		
 		$buffer = JResponse::getBody();
 
-		$javascript = '<!--zentester for Joomla by Zentester v1.0 | http://www.zentester.com/ !-->
-<script src="//app.zentester.com/index.php/remote/load_zentester/'. $zentester_id .'.js"></script>
-<!-- End of zentester for Joomla by Zentester v1.0 !-->
+		$zentester_javascript = '<!--Zentester for Joomla by Zentester v1.0 | http://www.zentester.com/ !-->
+<script src="//cdn.zentester.com/js/'. $zentester_id .'.js"></script>
+<!-- End of Zentester for Joomla by Zentester v1.0 !-->
 ';
 		
-		$buffer = str_replace ("</head>", $javascript."</head>", $buffer);
+		$buffer = str_replace ("</head>", $zentester_javascript."</head>", $buffer);
 		JResponse::setBody($buffer);
 		
 		return true;
