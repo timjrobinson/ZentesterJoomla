@@ -17,7 +17,7 @@
 	</languages>
 	<params>
 	
-		<param name="zentester_id" type="text" default="" label="Zentester ID" description="This is the 16 character test ID provided by Zentester." />
+		<param name="zentester_id" type="text" default="" label="Zentester Test Key" description="This is the 16 character test key provided by Zentester on the 'Get Code' page." />
 
 	</params>
 </install>

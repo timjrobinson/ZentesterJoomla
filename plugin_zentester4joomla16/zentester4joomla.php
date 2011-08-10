@@ -37,7 +37,7 @@ class plgSystemzentester4joomla extends JPlugin
 		$buffer = JResponse::getBody();
 
 		$javascript = '<!--zentester for Joomla by Zentester v1.0 | http://www.zentester.com/ !-->
-<script src="//app.zentester.com/index.php/remote/load_zentester/'. $zentester_id .'.js"></script>
+<script src="//app.zentester.com/index.php/remote/load_zentester/'. $zentester_id .'/zentester.js"></script>
 <!-- End of zentester for Joomla by Zentester v1.0 !-->
 ';
 		
